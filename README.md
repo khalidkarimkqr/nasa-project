@@ -75,7 +75,9 @@ This was way more than just a project. I used it to build my understanding of al
 
 <br/>
 
-> **Right — this is how I approached the setup, and you can follow the same way for any of your own projects too.** > <br/>
+> **Right — this is how I approached the setup, and you can follow the same way for any of your own projects too.**
+
+ <br/>
 
 - Make sure Node.js is installed
 - Create a free MongoDB Atlas database or run MongoDB locally
