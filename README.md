@@ -12,17 +12,20 @@ The most important part of this project wasn’t the app itself, but learning ho
 
 ## Folder Structure
 
+```bash
+
 .
-├── .github/workflows -> CI config  
-├── client -> Frontend React app  
-├── server -> Express backend  
-├── node_modules -> Auto-generated, ignored in git  
-├── .dockerignore  
-├── .gitignore  
-├── Dockerfile -> Docker build steps  
-├── package.json -> Root level scripts  
-├── package-lock.json  
+├── .github/workflows -> CI config
+├── client -> Frontend React app
+├── server -> Express backend
+├── node_modules -> Auto-generated, ignored in git
+├── .dockerignore
+├── .gitignore
+├── Dockerfile -> Docker build steps
+├── package.json -> Root level scripts
+├── package-lock.json
 └── README.md
+```
 
 ---
 
@@ -32,11 +35,17 @@ The most important part of this project wasn’t the app itself, but learning ho
 - Create a free MongoDB Atlas database or run MongoDB locally
 - In the "server" folder, create a ".env" file and add this:
 
+```bash
+
 "MONGO_URL=your-mongodb-connection-string"
+```
 
 - In the terminal from the root folder, run:
 
+```bash
+
 "npm install"
+```
 
 This installs both frontend and backend dependencies.
 
@@ -46,11 +55,13 @@ This installs both frontend and backend dependencies.
 
 To start the fullstack app, run:
 
+```bash
 "npm run deploy"
+```
 
 This builds the React frontend and serves it with the backend from "server/public".
 
-Now go to: "http://localhost:8000"
+Now go to: `http://localhost:8000`
 
 ---
 
@@ -58,35 +69,41 @@ Now go to: "http://localhost:8000"
 
 ### Build Docker Image
 
+```bash
 "docker build -t nasa-project ."
+```
 
 ### Run Docker Container
 
+```bash
 "docker run -it -p 8000:8000 nasa-project"
+```
 
-Now the app runs in a container. You can open it at "http://localhost:8000"
+Now the app runs in a container. You can open it at `http://localhost:8000`
 
 ---
 
 ## Dockerfile Explanation
 
-FROM node:lts-alpine  
-WORKDIR /app  
+```bash
+FROM node:lts-alpine
+WORKDIR /app
 COPY package\*.json ./
 
-COPY client/package\*.json client/  
+COPY client/package\*.json client/
 RUN npm run install-client --omit=dev
 
-COPY server/package\*.json server/  
+COPY server/package\*.json server/
 RUN npm run install-server --omit=dev
 
-COPY client/ client/  
+COPY client/ client/
 RUN npm run build --prefix client
 
-COPY server/ server/  
-USER node  
-CMD [ "npm", "start", "--prefix", "server" ]  
+COPY server/ server/
+USER node
+CMD [ "npm", "start", "--prefix", "server" ]
 EXPOSE 8000
+```
 
 - We use alpine for small image size
 - Install dependencies in client and server
@@ -160,39 +177,53 @@ This was my favorite part — learning to deploy manually.
 
 3. SSH into EC2:
 
+```
 "ssh -i your-key.pem ec2-user@<EC2-IP>"
+```
 
 4. Update the system:
 
+```bash
 "sudo yum update -y"
+```
 
 5. Install Docker:
 
+```
 "sudo yum install docker"
 
 "sudo service docker start"
+```
 
 6. Fix permissions (we're not admin yet):
 
+```bash
 "sudo usermod -a -G docker ec2-user"
+```
 
 Now exit the EC2 shell and log in again for it to take effect.
 
-7. Run "docker info" to make sure it works
+7. Run `docker info` to make sure it works
 
 8. Log into Docker:
 
+```bash
 "docker login"
+```
 
 9. Run the Docker container with:
 
+```bash
 "docker run --restart=always -p 8000:8000 your-docker-username/nasa-project"
+```
 
 The "--restart=always" makes sure the app restarts if the EC2 instance reboots
 
 10. Visit:
 
-"http://<EC2-PUBLIC-IP>:8000"
+```bash
+http://<EC2-PUBLIC-IP>:8000
+```
 
 Now the app is live from EC2.
 
@@ -202,12 +233,14 @@ Now the app is live from EC2.
 
 To run tests locally, run:
 
+```bash
 "npm test"
+```
 
 This includes:
 
-"npm test --prefix client" — frontend tests  
-"npm test --prefix server" — backend tests
+`npm test --prefix client` — frontend tests  
+`npm test --prefix server` — backend tests
 
 ---
 
